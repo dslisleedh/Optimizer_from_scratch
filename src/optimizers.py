@@ -16,11 +16,11 @@ class Optimizer:
     def __init__(self):
         self.step = 0
 
-    def update(self, params: Optional[jnp.ndarray] = None, grads: Optional[jnp.ndarray] = None):
+    def update(self, grads: Optional[jnp.ndarray] = None):
         self.step += 1
 
     def __call__(self, params, grads):
-        update_val = self.update(params, grads)
+        update_val = self.update(grads)
         return params + update_val
 
 
@@ -29,7 +29,7 @@ class SGD(Optimizer):
         super().__init__()
         self.learning_rate = learning_rate
 
-    def update(self, params: Optional[jnp.ndarray] = None, grads: Optional[jnp.ndarray] = None):
+    def update(self, grads: Optional[jnp.ndarray] = None):
         lr = return_lr(self.learning_rate, self.step)
         super().update()
 
@@ -43,7 +43,7 @@ class MomentumSGD(Optimizer):
         self.momentum = momentum
         self.velocity = 0.
 
-    def update(self, params: Optional[jnp.ndarray] = None, grads: Optional[jnp.ndarray] = None):
+    def update(self, grads: Optional[jnp.ndarray] = None):
         lr = return_lr(self.learning_rate, self.step)
         super().update()
 
@@ -58,7 +58,7 @@ class NesterovMomentumSGD(Optimizer):
         self.momentum = momentum
         self.velocity = 0.
 
-    def update(self, params: Optional[jnp.ndarray] = None, grads: Optional[jnp.ndarray] = None):
+    def update(self, grads: Optional[jnp.ndarray] = None):
         lr = return_lr(self.learning_rate, self.step)
         super().update()
 
@@ -73,7 +73,7 @@ class AdaGrad(Optimizer):
         self.epsilon = epsilon
         self.g_acc = 0.
 
-    def update(self, params: Optional[jnp.ndarray] = None, grads: Optional[jnp.ndarray] = None):
+    def update(self, grads: Optional[jnp.ndarray] = None):
         lr = return_lr(self.learning_rate, self.step)
         super().update()
 
@@ -89,7 +89,7 @@ class RMSProp(Optimizer):
         self.rho = rho
         self.g_acc = 0.
 
-    def update(self, params: Optional[jnp.ndarray] = None, grads: Optional[jnp.ndarray] = None):
+    def update(self, grads: Optional[jnp.ndarray] = None):
         lr = return_lr(self.learning_rate, self.step)
         super().update()
 
@@ -107,7 +107,7 @@ class Adam(Optimizer):
         self.m = 0.
         self.v = 0.
 
-    def update(self, params: Optional[jnp.ndarray] = None, grads: Optional[jnp.ndarray] = None):
+    def update(self, grads: Optional[jnp.ndarray] = None):
         lr = return_lr(self.learning_rate, self.step)
         super().update()
 
@@ -128,7 +128,7 @@ class AdaBelief(Optimizer):
         self.m = 0.
         self.s = 0.
 
-    def update(self, params: Optional[jnp.ndarray] = None, grads: Optional[jnp.ndarray] = None):
+    def update(self, grads: Optional[jnp.ndarray] = None):
         lr = return_lr(self.learning_rate, self.step)
         super().update()
 
