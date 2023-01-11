@@ -3,13 +3,13 @@
  Implement optimizers and visualize how gradient descent is working.
  
 # TODO:
- - [ ] Implement optimizers  
-   - [ ] SGD  
-   - [ ] Momentum SGD  
-   - [ ] Nesterov Momentum SGD
-   - [ ] Adagrad
-   - [ ] RMSProp
-   - [ ] Adam
-   - [ ] Adabelief
+ - [X] Implement optimizers  
+   - [X] SGD  
+   - [X] Momentum SGD  
+   - [X] Nesterov Momentum SGD
+   - [X] Adagrad
+   - [X] RMSProp
+   - [X] Adam
+   - [X] Adabelief
   
  - [ ] Visualize gradient descent
