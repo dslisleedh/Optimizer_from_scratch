@@ -106,15 +106,19 @@ class Adam(Optimizer):
         self.beta2 = beta2
         self.m = 0.
         self.v = 0.
+        self.beta1_div = 1.
+        self.beta2_div = 1.
 
     def update(self, grads: Optional[jnp.ndarray] = None):
         lr = return_lr(self.learning_rate, self.step)
         super().update()
+        self.beta1_div *= self.beta1
+        self.beta2_div *= self.beta2
 
         self.m = self.beta1 * self.m + (1 - self.beta1) * grads
         self.v = self.beta2 * self.v + (1 - self.beta2) * grads ** 2
-        m_hat = self.m / (1 - self.beta1 ** self.step)
-        v_hat = self.v / (1 - self.beta2 ** self.step)
+        m_hat = self.m / (1 - self.beta1_div)
+        v_hat = self.v / (1 - self.beta2_div)
         return -lr / (self.epsilon + jnp.sqrt(v_hat)) * m_hat
 
 
@@ -127,13 +131,17 @@ class AdaBelief(Optimizer):
         self.beta2 = beta2
         self.m = 0.
         self.s = 0.
+        self.beta1_div = 1.
+        self.beta2_div = 1.
 
     def update(self, grads: Optional[jnp.ndarray] = None):
         lr = return_lr(self.learning_rate, self.step)
         super().update()
+        self.beta1_div *= self.beta1
+        self.beta2_div *= self.beta2
 
         self.m = self.beta1 * self.m + (1 - self.beta1) * grads
         self.s = self.beta2 * self.s + (1 - self.beta2) * (grads - self.m) ** 2 + self.epsilon
-        m_hat = self.m / (1 - self.beta1 ** self.step)
-        s_hat = self.s / (1 - self.beta2 ** self.step)
+        m_hat = self.m / (1 - self.beta1_div)
+        s_hat = self.s / (1 - self.beta2_div)
         return -lr * m_hat / (jnp.sqrt(s_hat) + self.epsilon)
